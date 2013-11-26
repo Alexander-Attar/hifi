@@ -1,7 +1,10 @@
 import logging
-from decorators import template
 
+import soundcloud
+
+from decorators import template
 from django.shortcuts import render
+
 
 logger = logging.getLogger(__name__)
 
