@@ -1,3 +1,10 @@
+import logging
+from decorators import template
+
 from django.shortcuts import render
 
-# Create your views here.
+logger = logging.getLogger(__name__)
+
+@template('hifi.html')
+def hifi(request):
+    pass
