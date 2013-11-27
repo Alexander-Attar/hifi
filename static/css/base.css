@@ -26,13 +26,45 @@ body {
 
 /* Custom page CSS
 -------------------------------------------------- */
-/* Not required for template or sticky footer method. */
 
 .container {
   width: auto;
-  max-width: 680px;
+  max-width: 1000px;
   padding: 0 15px;
 }
 .container .credit {
   margin: 20px 0;
+}
+
+h1 {
+  font-size: 100px;
+  font-family: 'Bangers';
+}
+
+.container .media-object {
+  width: 100px;
+  height: auto;
+}
+
+/* grid */
+.row {
+  margin-bottom: 20px;
+}
+.row .row {
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.col-md-4 img {
+  width: 100%;
+  height: auto;
+}
+[class*="col-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+/*  background-color: #eee;
+  border: 1px solid #ddd;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid rgba(86,61,124,.2);*/
 }

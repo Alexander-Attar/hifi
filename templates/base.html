@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="Alexander Attar" content="">
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link href='http://fonts.googleapis.com/css?family=Bangers&effect=anaglyph' rel='stylesheet' type='text/css'>
 
     <title>HiFi</title>
 
@@ -24,12 +25,17 @@
     <div id="wrap">
 
       <!-- Begin page content -->
-      <div class="container">
-        <div class="page-header">
-          <h1>HiFi</h1>
+      <div class="hero-unit">
+      <div class="page-header">
+        <div class="row text-center">
+          <h1 class="font-effect-anaglyph">HiFi</h1>
+          <img src="{% static 'img/powered_by_black.png' %}">
         </div>
-        <p class="lead">Coming soon...</p>
-        <div id="target"></div>
+      </div>
+      </div>
+      <div class="container">
+        {% block content %}
+        {% endblock %}
       </div>
     </div>
 

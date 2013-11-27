@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{%block content %}
+<div class="row">
+  {% for image in images%}
+    <div class="col-md-4"><img src="{{ image }}"></div>
+  {% endfor %}
+</div>
+{% endblock %}

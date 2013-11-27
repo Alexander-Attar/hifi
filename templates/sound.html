@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{%block content %}
+    {% for sound in embeds %}
+        {{ sound|safe }}
+    {% endfor %}
+{% endblock %}
