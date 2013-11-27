@@ -15,23 +15,29 @@ $("#connect").live("click", function(){
 });
 
 $('.genre').click(function(e) {
-    $('.genre').hide();
-    play($(e.target).closest('.btn').text());
-});
-
-$('.page-header').click(function() {
-    $('.genre').show();
+    // $('#genres').hide();
+    $('#sound-load-error').hide();
+    play($(e.target).closest('.btn').text().toLowerCase());
 });
 
 function play(genre) {
-    SC.get('/tracks', { genres: genre }, function(tracks) {
-        // get a random track from the 50 returned
-        var random = Math.floor(Math.random() * 49);
+
+    // increase the amount of tracks returned from 50 to 200 and change offset randomly for more variance
+    SC.get('/tracks', { genres: genre, limit: 200, offset: Math.floor(Math.random() * 7999) }, function(tracks) {
+
+        // get a random track from the 200 returned
+        var random = Math.floor(Math.random() * 199);
         var track_url = tracks[random].permalink_url;
 
         // embed the track using the url
-        SC.oEmbed(track_url, {auto_play: true, color: "000000", show_artwork: false}, function(e) {
-            $("#sc-widget").html(e.html);
+        SC.oEmbed(track_url, {auto_play: true, color: "000000", show_artwork: false}, function(callback) {
+            try {
+                $("#sc-widget").html(callback.html);
+            }
+            catch(e) {  // for some sounds embedding bombs out so this handles that
+                $('#sound-load-error').show();
+                console.log('There was a problem loading that sound');
+            }
         });
     });
 }

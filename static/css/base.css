@@ -30,7 +30,8 @@ body {
 .container {
   width: auto;
   max-width: 1000px;
-  padding: 0 15px;
+  /*padding: 0 15px;*/
+  padding: 0px;
 }
 .container .credit {
   margin: 12px 0;
@@ -46,14 +47,14 @@ h1 {
   height: auto;
 }
 
+/* spacing between buttons on small screens */
+.main > div > .btn {
+  margin: 5px 0;
+}
+
 /* grid */
 .row {
   margin-bottom: 20px;
-}
-.row .row {
-  margin-top: 10px;
-  margin-bottom: 0;
-  text-align: center;
 }
 
 .image-nav img {
@@ -64,8 +65,8 @@ h1 {
 }
 
 [class*="col-"] {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .genre {
