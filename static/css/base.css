@@ -1,4 +1,4 @@
-/* Sticky footer styles
+/* Base CSS
 -------------------------------------------------- */
 
 html,
@@ -33,7 +33,7 @@ body {
   padding: 0 15px;
 }
 .container .credit {
-  margin: 20px 0;
+  margin: 12px 0;
 }
 
 h1 {
@@ -56,15 +56,27 @@ h1 {
   text-align: center;
 }
 
-.col-md-4 img {
+.image-nav img {
   width: 100%;
   height: auto;
+  padding: 0px;
+  margin: 0px;
 }
+
 [class*="col-"] {
   padding-top: 15px;
   padding-bottom: 15px;
-/*  background-color: #eee;
-  border: 1px solid #ddd;
-  background-color: rgba(86,61,124,.15);
-  border: 1px solid rgba(86,61,124,.2);*/
+}
+
+.genre {
+  /*padding-left: 2px;
+    padding-right: 2px;*/
+    /*background-color: #eee;*/
+    border: 1px solid #ddd;
+    /*background-color: rgba(86,61,124,.15);*/
+    border: 1px solid rgba(86,61,124,.2);
+}
+
+#footer img {
+  margin-bottom: .1%;
 }
