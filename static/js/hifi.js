@@ -64,7 +64,7 @@ function getTrack(genre) {
 function setupWidget(soundcloud_url) {
 
     var transitions = [];
-    var threshold = 100 / Math.floor($( "li" ).length);
+    var threshold = 100 / Math.floor($("#image-holder > div").length);
 
     for (var tick = threshold; tick <= 100; tick+=threshold) {
         transitions.push(tick);
@@ -99,7 +99,7 @@ function setupWidget(soundcloud_url) {
         widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(obj) {
             var index = Math.floor(obj.relativePosition / threshold * 100) + 1;
 
-            for (var i = 0; i <= $( "li" ).length; i++) {
+            for (var i = 0; i <= $("#image-holder > div").length; i++) {
                 var selector = '#image' + i;
                 $(selector).addClass('hide');
             }

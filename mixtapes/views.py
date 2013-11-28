@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 def home(request):
 
     images = []
-    r = requests.get('http://api.tumblr.com/v2/tagged?tag=cyber&limit=200&api_key=dGwcFI3DVY8C5EzQI9zmpiVDgLhrCMbGygHic7WtDRUWV6RAa0')
+    r = requests.get('http://api.tumblr.com/v2/tagged?tag=gif&limit=200&api_key=dGwcFI3DVY8C5EzQI9zmpiVDgLhrCMbGygHic7WtDRUWV6RAa0')
 
     for i in range(len(r.json()['response'])):
         if not 'photos' in r.json()['response'][i]: continue
