@@ -4,8 +4,25 @@
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
   There was an error loading that sound. Select another one!
 </div>
-<div id="genres" class="col-md-12 text-center">
-	<div class="genre btn">Ambient</div>
+<!-- Images -->
+<div class="row viewfinder">
+  <div id="image-holder">
+    {% for image in images %}
+      <div id="image{{forloop.counter}}" class="row text-center hide">
+          <img src="{{image}}">
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<p id="instructions" class="hide text-center lead">
+  Select one of your sounds, one of your favorites, or a genre, and we'll find you a sound and some images to match!
+</p>
+<div id="my-sounds" class="col-md-12 text-center hide">
+  <div id="my-sounds" class="me btn">My Sounds</div>
+  <div id="favorites" class="me btn">My Favorites</div>
+</div>
+<div id="genres" class="col-md-12 text-center hide">
+  <div class="genre btn">Ambient</div>
   <div class="genre btn">Classical</div>
   <div class="genre btn">Dubstep</div>
   <div class="genre btn">Electronic</div>
@@ -14,17 +31,7 @@
   <div class="genre btn">Metal</div>
   <div class="genre btn">Pop</div>
   <div class="genre btn">Punk</div>
-	<div class="genre btn">Rock</div>
-</div>
-<!-- Images -->
-<div class="row viewfinder">
-  <div id="image-holder">
-    {% for image in images %}
-      <div id="image{{forloop.counter}}" class="row text-center list-unstyled hide">
-          <img src="{{image}}">
-      </div>
-    {% endfor %}
-  </div>
+  <div class="genre btn">Rock</div>
 </div>
 <div class="col-md-12" id="sc-widget"></div>
 {% endblock %}

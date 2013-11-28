@@ -38,12 +38,25 @@ body {
 }
 
 .page-header {
-  margin: 20px 0 20px;
+  margin: 20px 0 0px;
 }
 
 h1 {
   font-size: 100px;
   font-family: 'Bangers';
+}
+
+.lead {
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+#project-description {
+  font-size: 30px;
+  margin-top: 5%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 5%;
 }
 
 .container .media-object {
@@ -66,25 +79,33 @@ h1 {
 }
 
 #image-holder img {
-  height: 200px;
+  height: 270px;
 }
 
 [class*="col-"] {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 0px;
+  /*padding-bottom: 10px;*/
 }
 
 #sc-widget {
   padding-top: 0px;
 }
 
+.me {
+  color: #fff;
+  background-color: rgb(251, 122, 16);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
 .genre {
-  /*padding-left: 2px;
-    padding-right: 2px;*/
-    /*background-color: #eee;*/
     border: 1px solid #ddd;
-    /*background-color: rgba(86,61,124,.15);*/
     border: 1px solid rgba(86,61,124,.2);
+}
+
+.genre:hover {
+  color: rgb(251, 122, 16);
+  outline-color: rgb(251, 122, 16);
 }
 
 #footer img {

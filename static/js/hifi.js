@@ -6,7 +6,7 @@ function createSpinnder() { // ridin' spinners
         lines: 13, // The number of lines to draw
         length: 15, // The length of each line
         width: 2, // The line thickness
-        radius: 20, // The radius of the inner circle
+        radius: 7, // The radius of the inner circle
         corners: 1, // Corner roundness (0..1)
         rotate: 0, // The rotation offset
         direction: 1, // 1: clockwise, -1: counterclockwise
@@ -36,20 +36,51 @@ $(document).ready(function() {
 $("#connect").live("click", function(){
     SC.connect(function(){
         SC.get("/me", function(me){
-            $("#username").text(me.username);
-            $("#description").val(me.description);
+
+            $('#project-description').hide();
+            $('#connect').hide();
+            $('#instructions').removeClass('hide');
+            $('#my-sounds').removeClass('hide');
+            $('#genres').removeClass('hide');
+
+            SC.get("/me", function(me){
+                console.log(me);
+            });
         });
     });
 });
 
-$('.genre').click(function(e) {
+
+// Grab an uploaded track from a user's sounds or one of their favorite sounds
+$('.me').click(function(e) {
+    $('#instructions').hide();
     createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
-    getTrack($(e.target).closest('.btn').text().toLowerCase());
+
+    if ($(e.target).closest('.btn').text().toLowerCase() == 'my sounds') {
+        api_url = '/me/tracks';
+    }
+
+    if ($(e.target).closest('.btn').text().toLowerCase() == 'my favorites'){
+        api_url = '/me/favorites';
+    }
+
+    SC.get(api_url, function(tracks) {
+        // get a random track from the sounds returned
+        var random = Math.floor(Math.random() * tracks.length);
+        var soundcloud_url = tracks[random].permalink_url;
+        setupWidget(soundcloud_url);
+    });
 });
 
-function getTrack(genre) {
+// Grab a random track based on genre selected
+$('.genre').click(function(e) {
+    $('#instructions').hide();
+    createSpinnder();
+    $('#loading').show();
+    $('#sound-load-error').hide();
+    var genre = $(e.target).closest('.btn').text().toLowerCase();
 
     // increase the amount of tracks returned from 50 to 200 and change offset randomly for more variance
     SC.get('/tracks', { genres: genre, limit: 200, offset: Math.floor(Math.random() * 7999) }, function(tracks) {
@@ -59,7 +90,7 @@ function getTrack(genre) {
         var soundcloud_url = tracks[random].permalink_url;
         setupWidget(soundcloud_url);
     });
-}
+});
 
 function setupWidget(soundcloud_url) {
 
@@ -99,6 +130,7 @@ function setupWidget(soundcloud_url) {
         widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(obj) {
             var index = Math.floor(obj.relativePosition / threshold * 100) + 1;
 
+            // hide all images besides the current index
             for (var i = 0; i <= $("#image-holder > div").length; i++) {
                 var selector = '#image' + i;
                 $(selector).addClass('hide');
