@@ -1,4 +1,29 @@
+
 var spinner;
+
+function createSpinnder() { // ridin' spinners
+    var opts = {
+        lines: 13, // The number of lines to draw
+        length: 15, // The length of each line
+        width: 2, // The line thickness
+        radius: 20, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: '#000', // #rgb or #rrggbb or array of colors
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: 'auto', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+    };
+    var target = document.getElementById('loading');
+    var s = new Spinner(opts).spin(target);
+    spinner = s;
+}
 
 $(document).ready(function() {
     SC.initialize({
@@ -38,10 +63,17 @@ function getTrack(genre) {
 
 function setupWidget(soundcloud_url) {
 
+    var transitions = [];
+    var threshold = 100 / Math.floor($( "li" ).length);
+
+    for (var tick = threshold; tick <= 100; tick+=threshold) {
+        transitions.push(tick);
+    }
+
     var widget_options = '&color=000000&show_artwork=false&auto_play=true';
 
-    $.getJSON( 'http://soundcloud.com/oembed.json?url=' + soundcloud_url + widget_options )
-      .done( function (data) {
+    $.getJSON('http://soundcloud.com/oembed.json?url=' + soundcloud_url + widget_options)
+      .done(function (data) {
         var widget;
         // data.html will contain widget HTML that you can embed
         $('#sc-widget').html( data.html );
@@ -65,31 +97,16 @@ function setupWidget(soundcloud_url) {
 
         // Progress events
         widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(obj) {
-            console.log(obj);
+            var index = Math.floor(obj.relativePosition / threshold * 100) + 1;
+
+            for (var i = 0; i <= $( "li" ).length; i++) {
+                var selector = '#image' + i;
+                $(selector).addClass('hide');
+            }
+
+            selector = '#image' + index;
+            $(selector).removeClass('hide');
+
         });
     });
-}
-
-function createSpinnder() { // ridin' spinners
-    var opts = {
-        lines: 13, // The number of lines to draw
-        length: 15, // The length of each line
-        width: 2, // The line thickness
-        radius: 20, // The radius of the inner circle
-        corners: 1, // Corner roundness (0..1)
-        rotate: 0, // The rotation offset
-        direction: 1, // 1: clockwise, -1: counterclockwise
-        color: '#000', // #rgb or #rrggbb or array of colors
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: false, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-    };
-    var target = document.getElementById('loading');
-    var s = new Spinner(opts).spin(target);
-    spinner = s;
 }

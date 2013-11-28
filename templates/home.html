@@ -17,4 +17,15 @@
 	<div class="genre btn">Rock</div>
 </div>
 <div class="col-md-12" id="sc-widget"></div>
+<!-- Images -->
+<div class="row">
+  <ul id="image-holder">
+    {% for image in images %}
+      <li id="image{{forloop.counter}}" class="row text-center list-unstyled hide">
+          <img src="{{image}}">
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
 {% endblock %}

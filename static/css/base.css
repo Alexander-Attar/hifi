@@ -37,6 +37,10 @@ body {
   margin: 12px 0;
 }
 
+.page-header {
+  margin: 20px 0 20px;
+}
+
 h1 {
   font-size: 100px;
   font-family: 'Bangers';
@@ -57,11 +61,8 @@ h1 {
   margin-bottom: 20px;
 }
 
-.image-nav img {
-  width: 100%;
-  height: auto;
-  padding: 0px;
-  margin: 0px;
+#image-holder img {
+  width: 70%;
 }
 
 [class*="col-"] {
