@@ -28,6 +28,7 @@
             <h1 class="font-effect-anaglyph">HiFi</h1>
             <a href="#" class="big button" id="connect"><img src="{% static 'img/btn-connect-l.png' %}"></a>
           </div>
+          <div id ="loading" style="position:fixed;top:30%;left:50%"></div>
         </div> <!-- end page-header -->
         {%block content %}
         {% endblock %}
@@ -44,6 +45,7 @@
     <script src="https://w.soundcloud.com/player/api.js" type="text/javascript"></script>
     <script type="text/javascript" src="http://connect.soundcloud.com/sdk.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="{% static 'js/spin.min.js' %}"></script>
     <script src="{% static 'js/modernizr.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/hifi.js' %}"></script>

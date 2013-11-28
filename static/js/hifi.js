@@ -1,8 +1,11 @@
+var spinner;
+
 $(document).ready(function() {
     SC.initialize({
       client_id: '51e5315d2d8046ad3b14ba65871265b2',
       redirect_uri: "http://127.0.0.1:8000/"
     });
+    $('#loading').hide();
 });
 
 $("#connect").live("click", function(){
@@ -15,29 +18,78 @@ $("#connect").live("click", function(){
 });
 
 $('.genre').click(function(e) {
-    // $('#genres').hide();
+    createSpinnder();
+    $('#loading').show();
     $('#sound-load-error').hide();
-    play($(e.target).closest('.btn').text().toLowerCase());
+    getTrack($(e.target).closest('.btn').text().toLowerCase());
 });
 
-function play(genre) {
+function getTrack(genre) {
 
     // increase the amount of tracks returned from 50 to 200 and change offset randomly for more variance
     SC.get('/tracks', { genres: genre, limit: 200, offset: Math.floor(Math.random() * 7999) }, function(tracks) {
 
         // get a random track from the 200 returned
         var random = Math.floor(Math.random() * 199);
-        var track_url = tracks[random].permalink_url;
+        var soundcloud_url = tracks[random].permalink_url;
+        setupWidget(soundcloud_url);
+    });
+}
 
-        // embed the track using the url
-        SC.oEmbed(track_url, {auto_play: true, color: "000000", show_artwork: false}, function(callback) {
-            try {
-                $("#sc-widget").html(callback.html);
-            }
-            catch(e) {  // for some sounds embedding bombs out so this handles that
-                $('#sound-load-error').show();
-                console.log('There was a problem loading that sound');
-            }
+function setupWidget(soundcloud_url) {
+
+    var widget_options = '&color=000000&show_artwork=false&auto_play=true';
+
+    $.getJSON( 'http://soundcloud.com/oembed.json?url=' + soundcloud_url + widget_options )
+      .done( function (data) {
+        var widget;
+        // data.html will contain widget HTML that you can embed
+        $('#sc-widget').html( data.html );
+
+        // Create API enabled reference to the widget
+        widget = SC.Widget($('#sc-widget').find('iframe')[0]);
+
+        // Interact with widget via API
+        widget.bind('ready', function () {
+            spinner.stop();
+            $('#loading').hide();
+        });
+
+        // Play events
+        widget.bind(SC.Widget.Events.PLAY, function() {
+            // get information about currently playing sound
+            widget.getCurrentSound(function(currentSound) {
+                console.log(currentSound);
+            });
+        });
+
+        // Progress events
+        widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(obj) {
+            console.log(obj);
         });
     });
+}
+
+function createSpinnder() { // ridin' spinners
+    var opts = {
+        lines: 13, // The number of lines to draw
+        length: 15, // The length of each line
+        width: 2, // The line thickness
+        radius: 20, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: '#000', // #rgb or #rrggbb or array of colors
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: 'auto', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+    };
+    var target = document.getElementById('loading');
+    var s = new Spinner(opts).spin(target);
+    spinner = s;
 }
