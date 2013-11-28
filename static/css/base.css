@@ -79,6 +79,7 @@ h1 {
 }
 
 #image-holder img {
+  max-width: 100%;
   height: 270px;
 }
 
