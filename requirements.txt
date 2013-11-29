@@ -1,9 +1,7 @@
 Django==1.6
-setuptools>=0.7
 newrelic==2.6.0.5
 South==0.8.4
 setuptools
-distribute==0.7.3
 django-extensions==1.2.5
 fudge==1.0.3
 gunicorn==18.0
