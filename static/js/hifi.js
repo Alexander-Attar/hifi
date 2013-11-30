@@ -1,5 +1,5 @@
-
 var spinner;
+var tags = ['gif', 'light', 'dark', 'electronic', 'cyber', 'nyc'];
 
 function createSpinnder() { // ridin' spinners
     var opts = {
@@ -50,28 +50,18 @@ $("#connect").live("click", function(){
     });
 });
 
-
+// TODO - Combine logic for click events for user and genre buttons
 // Grab an uploaded track from a user's sounds or one of their favorite sounds
 $('.me').click(function(e) {
+
     $('#instructions').hide();
     createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
+    var selection = $(e.target).closest('.btn').text().toLowerCase();
 
-    if ($(e.target).closest('.btn').text().toLowerCase() == 'my sounds') {
-        api_url = '/me/tracks';
-    }
-
-    if ($(e.target).closest('.btn').text().toLowerCase() == 'my favorites'){
-        api_url = '/me/favorites';
-    }
-
-    SC.get(api_url, function(tracks) {
-        // get a random track from the sounds returned
-        var random = Math.floor(Math.random() * tracks.length);
-        var soundcloud_url = tracks[random].permalink_url;
-        setupWidget(soundcloud_url);
-    });
+    // get images from tumblr
+    tumble(tags, selection);
 });
 
 // Grab a random track based on genre selected
@@ -80,17 +70,110 @@ $('.genre').click(function(e) {
     createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
-    var genre = $(e.target).closest('.btn').text().toLowerCase();
+    var selection = $(e.target).closest('.btn').text().toLowerCase();
 
-    // increase the amount of tracks returned from 50 to 200 and change offset randomly for more variance
-    SC.get('/tracks', { genres: genre, limit: 200, offset: Math.floor(Math.random() * 7999) }, function(tracks) {
-
-        // get a random track from the 200 returned
-        var random = Math.floor(Math.random() * 199);
-        var soundcloud_url = tracks[random].permalink_url;
-        setupWidget(soundcloud_url);
-    });
+    // get images from tumblr
+    tumble(tags, selection);
 });
+
+function getTracks(selection) {
+
+    var soundcloud_url = null;
+
+    if (selection == 'my sounds') {
+        soundcloud_url = '/me/tracks';
+    }
+
+    if (selection == 'my favorites'){
+        soundcloud_url = '/me/favorites';
+    }
+
+    if (soundcloud_url) {
+        SC.get(soundcloud_url, function(tracks) {
+            // get a random track from the sounds returned
+            var random = Math.floor(Math.random() * tracks.length);
+            var soundcloud_url = tracks[random].permalink_url;
+            setupWidget(soundcloud_url);
+        });
+    } else {
+        // increase the amount of tracks returned from 50 to 200 and change offset randomly for more variance
+        SC.get('/tracks', { genres: selection, limit: 200, offset: Math.floor(Math.random() * 7999) }, function(tracks) {
+
+            // get a random track from the 200 returned
+            var random = Math.floor(Math.random() * 199);
+            var soundcloud_url = tracks[random].permalink_url;
+            setupWidget(soundcloud_url);
+        });
+    }
+}
+
+function getImages(data, images) {
+
+    for (var i = 0; i < data.response.length; i++) {
+
+        // get the image url from the post
+        if (data.response[i].photos){
+            images.push(data.response[i].photos[0].original_size.url);
+        }
+    }
+}
+
+function tumble(tags, selection) {
+
+    images = [];  // reset images
+    $('#image-holder').empty();  // clear out images in the DOM
+
+    for (var tag = 0; tag < tags.length; tag++) {
+
+        var url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=' + tags[tag];
+
+        // dynamically name requests
+        var name = 'req' + tag;
+        window[name] = $.ajax({
+            async: false,
+            url: url,
+            dataType: "jsonp",
+            jsonp: 'jsonp'}).success(function(data){ getImages(data, images);
+        });
+    }
+
+    // wait for all ajax requests to be done
+    // TODO - make the number of requests to wait for dynamic
+    $.when(req0, req1, req2, req3, req4, req5).done(function(){
+        embedImages(images, selection);
+    });
+}
+
+function shuffle(array) {
+    var counter = array.length, temp, index;
+
+    // While there are elements in the array
+    while (counter--) {
+        // Pick a random index
+        index = (Math.random() * counter) | 0;
+
+        // And swap the last element with it
+        temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    }
+
+    return array;
+}
+
+function embedImages(images, selection) {
+
+    // randomize the order of the images
+    images = shuffle(images);
+
+    for (var i = 0; i <= images.length; i++) {
+        var imageId = 'image' + i;
+        $('#image-holder').append('<div id="' + imageId + '" class="row text-center hide"><img src="'+ images[i] + '"></div>');
+    }
+
+    // once the images are loaded we can get the audio and set the image transition points
+    getTracks(selection);
+}
 
 function setupWidget(soundcloud_url) {
 
@@ -129,6 +212,7 @@ function setupWidget(soundcloud_url) {
         // Progress events
         widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(obj) {
             var index = Math.floor(obj.relativePosition / threshold * 100) + 1;
+            console.log(index);
 
             // hide all images besides the current index
             for (var i = 0; i <= $("#image-holder > div").length; i++) {
