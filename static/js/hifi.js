@@ -1,5 +1,7 @@
 var spinner;
-var tags = ['gif', 'light', 'dark', 'electronic', 'cyber', 'nyc'];
+var tags = [
+    'gif', 'art', 'technology', 'music', 'sound', 'science', 'love', 'light', 'dark', 'electronic', 'cyber', 'nyc'
+];
 
 function createSpinnder() { // ridin' spinners
     var opts = {
@@ -139,7 +141,7 @@ function tumble(tags, selection) {
 
     // wait for all ajax requests to be done
     // TODO - make the number of requests to wait for dynamic
-    $.when(req0, req1, req2, req3, req4, req5).done(function(){
+    $.when(req0, req1, req2, req3, req4, req5, req6, req7, req8, req9, req10, req11).done(function(){
         embedImages(images, selection);
     });
 }
