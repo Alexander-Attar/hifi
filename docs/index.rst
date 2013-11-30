@@ -9,9 +9,10 @@ Welcome to the Application's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-   installation
+    about
+    installation
 
 Indices and tables
 ==================
