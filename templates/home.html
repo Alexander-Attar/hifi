@@ -7,15 +7,19 @@
 <!-- Images -->
 <div class="row viewfinder">
   <div id="image-holder">
-    {% for image in images %}
+<!-- Handled via Javascript now -->
+<!--     {% for image in images %}
       <div id="image{{forloop.counter}}" class="row text-center hide">
           <img src="{{image}}">
       </div>
-    {% endfor %}
+    {% endfor %} -->
   </div>
 </div>
 <p id="instructions" class="hide text-center lead">
   Select one of your sounds, one of your favorites, or a genre, and we'll find you a sound and some images to match!
+</p>
+<p id="track-finished" class="hide text-center lead">
+  Make another selection to continue!
 </p>
 <div id="my-sounds" class="col-md-12 text-center hide">
   <div id="my-sounds" class="me btn">My Sounds</div>

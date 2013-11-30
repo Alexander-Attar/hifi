@@ -57,6 +57,7 @@ $("#connect").live("click", function(){
 $('.me').click(function(e) {
 
     $('#instructions').hide();
+    $('#track-finished').hide();
     createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
@@ -69,6 +70,7 @@ $('.me').click(function(e) {
 // Grab a random track based on genre selected
 $('.genre').click(function(e) {
     $('#instructions').hide();
+    $('#track-finished').hide();
     createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
@@ -224,7 +226,11 @@ function setupWidget(soundcloud_url) {
 
             selector = '#image' + index;
             $(selector).removeClass('hide');
-
         });
+
+        widget.bind(SC.Widget.Events.FINISH, function(obj) {
+            $('#track-finished').show();
+        });
+
     });
 }
