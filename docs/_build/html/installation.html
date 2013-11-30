@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Install virtualenv and pip &mdash; Application 3189b74e96b37b5e8618b538c91119be944f550a documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3189b74e96b37b5e8618b538c91119be944f550a',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Application 3189b74e96b37b5e8618b538c91119be944f550a documentation" href="index.html" />
+    <link rel="prev" title="Welcome to the Application’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to the Application’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Application 3189b74e96b37b5e8618b538c91119be944f550a documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="install-virtualenv-and-pip">
+<h1>Install <strong>virtualenv</strong> and <strong>pip</strong><a class="headerlink" href="#install-virtualenv-and-pip" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pip">
+<h2>PIP<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h2>
+<p>PIP is a python package management tool and is a successor to easy_install.  To install PIP run <tt class="docutils literal"><span class="pre">easy_install</span> <span class="pre">pip</span></tt> or download pip from <a class="reference external" href="http://pypi.python.org/pypi/pip#downloads">http://pypi.python.org/pypi/pip#downloads</a> and install the package using the included setup.py file.</p>
+<p>If you already have pip installed on your system, make sure that you have the latest version (0.8.2).  If you need to update pip you can do so by running <tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">pip</span></tt></p>
+<p>If you are running on OS X and use <a class="reference external" href="https://github.com/mxcl/homebrew">homebrew</a>, you will want to install python and PIP via homebrew.  Doing so will properly configure pip to very easily and cleanly build packages with c extensions.</p>
+</div>
+<div class="section" id="virtualenv">
+<h2>Virtualenv<a class="headerlink" href="#virtualenv" title="Permalink to this headline">¶</a></h2>
+<p>Virutalenv provides a simple and lightweight to install python pagackes into a contained space instead of to the system package directories.  This makes using muliple versions of a package on the same system possible and reduces the risk of unexpected interactions between different projects.</p>
+<p>Virtualenv can be installed via pip with the command <tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">virtualenv</span></tt>.</p>
+<p>You may also want to install <a class="reference external" href="http://www.doughellmann.com/projects/virtualenvwrapper/">virtualenv_wrapper</a> as it can make working with multiple virtualenvs easier to manage.  Installation and use instructions are available on the project site.</p>
+</div>
+</div>
+<div class="section" id="setting-up-a-virtualenv">
+<h1>Setting up a virtualenv<a class="headerlink" href="#setting-up-a-virtualenv" title="Permalink to this headline">¶</a></h1>
+<p>Once pip and virtualenv are installed you&#8217;ll want to create your virtualenv to work out of.  If you are using just virtualenv you will want to cd into your project directory and run <tt class="docutils literal"><span class="pre">virtualenv</span> <span class="pre">env</span></tt>.  If you are using virtualenv_wrapper, you can run <tt class="docutils literal"><span class="pre">mkvirtualenv</span> <span class="pre">app</span></tt>. (app can be called whatever you want)</p>
+</div>
+<div class="section" id="activating-the-virtualenv">
+<h1>Activating the virtualenv<a class="headerlink" href="#activating-the-virtualenv" title="Permalink to this headline">¶</a></h1>
+<p>To use a virtualenv you need to &#8220;activate&#8221; it.  You will need to do this each time you start a new terminal session and want to run project code.  If you are using just virtualenv, you will want to cd to the project directory and run the command <tt class="docutils literal"><span class="pre">source</span> <span class="pre">env/bin/activate</span></tt>.  If you are using virtualenv_wrapper, you can simply run <tt class="docutils literal"><span class="pre">workon</span> <span class="pre">app</span></tt> from wherever.</p>
+</div>
+<div class="section" id="installing-dependencies">
+<h1>Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this headline">¶</a></h1>
+<p>Most of the project&#8217;s dependencies are managed via pip.  To install the dependencies, cd to your project directory and run the command <tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></tt>.  Make sure that you have activated a virtualenv before doing this.  You will want to run this command whenever you pull updates from upstream as it will also update any dependencies as needed.</p>
+<p>There are two dependencies which are managed outside of the process above as they can be tricky to install on some platforms.  These dependencies are <tt class="docutils literal"><span class="pre">PIL</span></tt> and <tt class="docutils literal"><span class="pre">psycopg2</span></tt>.</p>
+<div class="section" id="psycopg2">
+<h2>Psycopg2<a class="headerlink" href="#psycopg2" title="Permalink to this headline">¶</a></h2>
+<p>If your on a mac, your using homebrew, and you&#8217;ve installed pip and postgresql through homebrew, then you can simply run <tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">psycopg2</span></tt>.  If you do fit this situation, you will probably want to install psycopg2 via your OS package manager of choice.</p>
+</div>
+</div>
+<div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<p>Under the <tt class="docutils literal"><span class="pre">src/config/settings</span></tt> directory, there is a file called <tt class="docutils literal"><span class="pre">settings.py</span></tt>. Update the values in the this file to match your environment.  Most of the values should be either self-explanatory or safe to leave with default values.</p>
+</div>
+<div class="section" id="setup-database">
+<h1>Setup Database<a class="headerlink" href="#setup-database" title="Permalink to this headline">¶</a></h1>
+<p>Create an empty database in postgresql with createdb &lt;database name&gt; and make sure that the credentials/settings to access it are setup in your <tt class="docutils literal"><span class="pre">config/settings.py</span></tt> file.  Once that is setup, cd into the <tt class="docutils literal"><span class="pre">src</span></tt> directory of your project and run the command <tt class="docutils literal"><span class="pre">./manage.py</span> <span class="pre">syncdb</span> <span class="pre">--migrate</span></tt>.  While running this command, you will be asked if you&#8217;d like to create a super user.  Go ahead and fill out the fields to create the super user, but be aware that portions of the site will not work for this user as they were not created as part of the full registration process.  Once completed, you will have all of the database tables and basic data needed for your instance to work.</p>
+<p>Much like the dependencies command, you will want to run this command whenever you pull upstream changes.  Doing so will apply any database changes your instance needs.</p>
+</div>
+<div class="section" id="run-development-server">
+<h1>Run Development Server<a class="headerlink" href="#run-development-server" title="Permalink to this headline">¶</a></h1>
+<p>To run the application on your local machine, cd to the <tt class="docutils literal"><span class="pre">src</span></tt> directory and run the command <tt class="docutils literal"><span class="pre">./manage.py</span> <span class="pre">runserver</span></tt>.  You should now be able to hit the app by going to <a class="reference external" href="http://127.0.01:8000">http://127.0.01:8000</a>.  If you&#8217;d like to hit your instance from a remote address (i.e. a VM), run the command <tt class="docutils literal"><span class="pre">./manage.py</span> <span class="pre">runsever</span> <span class="pre">0.0.0.0:8000</span></tt> instead.</p>
+</div>
+<div class="section" id="heroku">
+<h1>Heroku<a class="headerlink" href="#heroku" title="Permalink to this headline">¶</a></h1>
+<p>Add the following to your .profile or .bash_profile where user name is your computer user name, and database name is
+the name of the postgres database you created for the application.
+export DJANGO_SECRET_KEY=&#8217;local&#8217;
+export DATABASE_URL=&#8217;postgres://&lt;user name&gt;:&#64;localhost:5432/&lt;database name&gt;&#8217;</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Install <strong>virtualenv</strong> and <strong>pip</strong></a><ul>
+<li><a class="reference internal" href="#pip">PIP</a></li>
+<li><a class="reference internal" href="#virtualenv">Virtualenv</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up-a-virtualenv">Setting up a virtualenv</a></li>
+<li><a class="reference internal" href="#activating-the-virtualenv">Activating the virtualenv</a></li>
+<li><a class="reference internal" href="#installing-dependencies">Installing Dependencies</a><ul>
+<li><a class="reference internal" href="#psycopg2">Psycopg2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#setup-database">Setup Database</a></li>
+<li><a class="reference internal" href="#run-development-server">Run Development Server</a></li>
+<li><a class="reference internal" href="#heroku">Heroku</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to the Application&#8217;s documentation!</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/installation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to the Application’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Application 3189b74e96b37b5e8618b538c91119be944f550a documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Alexander Attar - 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>
