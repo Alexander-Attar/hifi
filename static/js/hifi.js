@@ -28,7 +28,7 @@ function createSpinnder() { // ridin' spinners
 $(document).ready(function() {
     SC.initialize({
       client_id: '51e5315d2d8046ad3b14ba65871265b2',
-      redirect_uri: "http://127.0.0.1:8000/"
+      redirect_uri: "http://hifi.herokuapp.com/"
     });
     $('#loading').hide();
 });
