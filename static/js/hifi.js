@@ -30,7 +30,7 @@ function createSpinnder() { // ridin' spinners
 $(document).ready(function() {
     SC.initialize({
       client_id: '51e5315d2d8046ad3b14ba65871265b2',
-      redirect_uri: "http://hifi.herokuapp.com/"
+      redirect_uri: 'http://hifi.herokuapp.com/'
     });
     $('#loading').hide();
 });
@@ -211,6 +211,8 @@ function setupWidget(soundcloud_url) {
             widget.getCurrentSound(function(currentSound) {
                 console.log(currentSound);
             });
+
+            $('#track-finished').hide();
         });
 
         // Progress events
@@ -229,6 +231,7 @@ function setupWidget(soundcloud_url) {
         });
 
         widget.bind(SC.Widget.Events.FINISH, function(obj) {
+            $('#track-finished').show();
             $('#track-finished').removeClass('hide');
         });
     });
