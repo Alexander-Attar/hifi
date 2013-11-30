@@ -229,8 +229,7 @@ function setupWidget(soundcloud_url) {
         });
 
         widget.bind(SC.Widget.Events.FINISH, function(obj) {
-            $('#track-finished').show();
+            $('#track-finished').removeClass('hide');
         });
-
     });
 }
