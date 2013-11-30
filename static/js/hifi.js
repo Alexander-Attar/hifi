@@ -30,7 +30,7 @@ function createSpinnder() { // ridin' spinners
 $(document).ready(function() {
     SC.initialize({
       client_id: '51e5315d2d8046ad3b14ba65871265b2',
-      redirect_uri: 'http://hifi.herokuapp.com/'
+      redirect_uri: "http://127.0.0.1:8000/"
     });
     $('#loading').hide();
 });
@@ -127,9 +127,14 @@ function tumble(tags, selection) {
     images = [];  // reset images
     $('#image-holder').empty();  // clear out images in the DOM
 
+    var timestamp = Date.now() * 0.001;
+
     for (var tag = 0; tag < tags.length; tag++) {
 
-        var url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=' + tags[tag];
+        // this is a hack on tumblr's API to retrieve more than 20 images by navigating back in time via timestamp
+        timestamp -= 20000;
+
+        var url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=gif&before=' + timestamp;
 
         // dynamically name requests
         var name = 'req' + tag;
@@ -218,7 +223,6 @@ function setupWidget(soundcloud_url) {
         // Progress events
         widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(obj) {
             var index = Math.floor(obj.relativePosition / threshold * 100) + 1;
-            console.log(index);
 
             // hide all images besides the current index
             for (var i = 0; i <= $("#image-holder > div").length; i++) {
