@@ -16,10 +16,22 @@ logger = logging.getLogger(__name__)
 
 @template('home.html')
 def home(request):
+
+    # This is now handled on the frontend
     pass
 
     # images = []
+    # weeks = 0
+    # mins = 0
+
+    # # while weeks <= 3:
+
+    # future = datetime.datetime.now() + datetime.timedelta(minutes = mins)
+    # timestamp = calendar.timegm(future.utctimetuple())
+
     # tumblr_url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=gif+light&before=%s' % timestamp
+
+    # print tumblr_url
 
     # r = requests.get(tumblr_url)
 
@@ -32,13 +44,18 @@ def home(request):
 
     #     images.append(p['original_size']['url'])
 
+    #     # weeks += 1
+    #     # mins -= 1000
+
+    # print len(images)
+
     # return {'images': images}
 
 @template('hifi.html')
 def hifi(request):
 
     images = []
-    r = requests.get('http://api.tumblr.com/v2/tagged?tag=gif&api_key=dGwcFI3DVY8C5EzQI9zmpiVDgLhrCMbGygHic7WtDRUWV6RAa0')
+    r = requests.get('http://api.tumblr.com/v2/tagged?tag=cyber&api_key=dGwcFI3DVY8C5EzQI9zmpiVDgLhrCMbGygHic7WtDRUWV6RAa0')
 
     for i in range(len(r.json()['response'])):
         if not 'photos' in r.json()['response'][i]: continue

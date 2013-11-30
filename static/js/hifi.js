@@ -84,14 +84,13 @@ function getTracks(selection) {
 
     var soundcloud_url = null;
 
+    // Not the best way to do this, but it works
     if (selection == 'my sounds') {
         soundcloud_url = '/me/tracks';
     }
-
     if (selection == 'my favorites'){
         soundcloud_url = '/me/favorites';
     }
-
     if (soundcloud_url) {
         SC.get(soundcloud_url, function(tracks) {
             // get a random track from the sounds returned
@@ -99,7 +98,7 @@ function getTracks(selection) {
             var soundcloud_url = tracks[random].permalink_url;
             setupWidget(soundcloud_url);
         });
-    } else {
+    } else {  // user clicked a genre button
         // increase the amount of tracks returned from 50 to 200 and change offset randomly for more variance
         SC.get('/tracks', { genres: selection, limit: 200, offset: Math.floor(Math.random() * 7999) }, function(tracks) {
 
@@ -129,15 +128,18 @@ function tumble(tags, selection) {
 
     var timestamp = Date.now() * 0.001;
 
-    for (var tag = 0; tag < tags.length; tag++) {
+    // 12 requests to tumblr or about 240 images
+    // seems to create an engaging experience for most normal length sounds
+    for (var i = 0; i < 12; i++) {
 
         // this is a hack on tumblr's API to retrieve more than 20 images by navigating back in time via timestamp
-        timestamp -= 20000;
+        var seed = Math.floor((Math.random()*10)+1);  // randomizes the images returned from tumblr more
+        timestamp -= 10500 * seed;  // this is kind of arbitrary, just the result of experimenting
 
         var url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=gif&before=' + timestamp;
 
-        // dynamically name requests
-        var name = 'req' + tag;
+        // dynamically name requests so we can wait for them to complete
+        var name = 'req' + i;
         window[name] = $.ajax({
             async: false,
             url: url,
@@ -153,6 +155,7 @@ function tumble(tags, selection) {
     });
 }
 
+// useful for shuffling images to create different ordering for each play
 function shuffle(array) {
     var counter = array.length, temp, index;
 
@@ -184,6 +187,7 @@ function embedImages(images, selection) {
     getTracks(selection);
 }
 
+// handles soundcloud widget events, and contains logic for transitioning between images
 function setupWidget(soundcloud_url) {
 
     var transitions = [];
@@ -229,7 +233,6 @@ function setupWidget(soundcloud_url) {
                 var selector = '#image' + i;
                 $(selector).addClass('hide');
             }
-
             selector = '#image' + index;
             $(selector).removeClass('hide');
         });
