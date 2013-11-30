@@ -190,6 +190,9 @@ function embedImages(images, selection) {
 // handles soundcloud widget events, and contains logic for transitioning between images
 function setupWidget(soundcloud_url) {
 
+    // the total duration of 100 percent of the audio is divided by the amount of images
+    // and the value is used to create the transiton points that are hit by an incrementing
+    // index as the sound progresses over time
     var transitions = [];
     var threshold = 100 / Math.floor($("#image-holder > div").length);
 
