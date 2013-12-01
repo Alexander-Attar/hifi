@@ -5,7 +5,7 @@ HiFi is an image visualizer that mashes up sounds from SoundCloud, and images fr
 
 The original idea was to create an image playlist relating to the genre of music selected from SoundCloud. My thought was that certain genres could relate to various tags, which I would correlate based on my own experience, and then these tags would be used to request images from the Tumblr API.
 
-I quickly learned that the Tumblr API was not as versatile as I had hoped, and searching by tag was something that was barely supported. Only 20 images would be returned from each request, and offset was not a optional parameter. I was able to find a hack around this by navigating back by timestamp to retreive more images.
+I quickly learned that the Tumblr API was not as versatile as I had hoped, and searching by tag was something that was barely supported. Only 20 images would be returned from each request, and offset was not a optional parameter. I was able to find a hack around this by navigating back by timestamp to retrieve more images.
 
 As I experimented, I found that gifs produced the most interesting results. So rather than using a bunch of different tags, I set the program up to make a series of requests to gather and randomize a collection of gifs. This could be further developed to gather gifs that also have other distinguishing tags, but for this prototype I decided to keep it simple.
 

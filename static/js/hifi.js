@@ -38,9 +38,9 @@ $(document).ready(function() {
 $("#connect").live("click", function(){
     SC.connect(function(){
         SC.get("/me", function(me){
-
             $('#project-description').hide();
             $('#connect').hide();
+            $('#no-account').hide();
             $('#instructions').removeClass('hide');
             $('#my-sounds').removeClass('hide');
             $('#genres').removeClass('hide');
@@ -50,6 +50,15 @@ $("#connect").live("click", function(){
             });
         });
     });
+});
+
+$('#no-account').click(function(e) {
+    $('#no-account').hide();
+    $('#project-description').hide();
+    $('#connect').hide();
+    $('#not-connected-instructions').removeClass('hide');
+    $('#genres').removeClass('hide');
+
 });
 
 // TODO - Combine logic for click events for user and genre buttons
