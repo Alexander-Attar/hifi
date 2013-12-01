@@ -138,9 +138,9 @@ function tumble(tags, selection) {
 
     var timestamp = Date.now() * 0.001;
 
-    // 12 requests to tumblr or about 240 images
+    // 20 requests to tumblr or about 400 images
     // seems to create an engaging experience for most normal length sounds
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < 20; i++) {
 
         // this is a hack on tumblr's API to retrieve more than 20 images by navigating back in time via timestamp
         var seed = Math.floor((Math.random()*10)+1);  // randomizes the images returned from tumblr more
