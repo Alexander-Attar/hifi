@@ -71,7 +71,11 @@ h1 {
 
 /* grid */
 .row {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+#genres {
+  margin-bottom: 10px;
 }
 
 .viewfinder {
