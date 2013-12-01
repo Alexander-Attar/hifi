@@ -79,6 +79,7 @@ $('.me').click(function(e) {
 // Grab a random track based on genre selected
 $('.genre').click(function(e) {
     $('#instructions').hide();
+    $('#not-connected-instructions').hide();
     $('#track-finished').hide();
     createSpinnder();
     $('#loading').show();
