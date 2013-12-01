@@ -108,6 +108,13 @@ h1 {
 }
 
 #no-account-btn {
+  color: rgb(251, 122, 16);
+  background-color: #fff;
+  border: 1px solid rgb(251, 122, 16);
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+#no-account-btn:hover {
   color: #fff;
   background-color: rgb(251, 122, 16);
   border: 1px solid #ddd;
