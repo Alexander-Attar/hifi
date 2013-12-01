@@ -4,24 +4,24 @@ var tags = [
 ];
 
 function createSpinnder() { // ridin' spinners
-    var opts = {
-        lines: 13, // The number of lines to draw
-        length: 15, // The length of each line
-        width: 2, // The line thickness
-        radius: 7, // The radius of the inner circle
-        corners: 1, // Corner roundness (0..1)
-        rotate: 0, // The rotation offset
-        direction: 1, // 1: clockwise, -1: counterclockwise
-        color: '#000', // #rgb or #rrggbb or array of colors
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: false, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-    };
+var opts = {
+  lines: 7, // The number of lines to draw
+  length: 0, // The length of each line
+  width: 10, // The line thickness
+  radius: 10, // The radius of the inner circle
+  corners: 1, // Corner roundness (0..1)
+  rotate: 0, // The rotation offset
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  color: '#000', // #rgb or #rrggbb or array of colors
+  speed: 1, // Rounds per second
+  trail: 60, // Afterglow percentage
+  shadow: false, // Whether to render a shadow
+  hwaccel: false, // Whether to use hardware acceleration
+  className: 'spinner', // The CSS class to assign to the spinner
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  top: 'auto', // Top position relative to parent in px
+  left: 'auto' // Left position relative to parent in px
+};
     var target = document.getElementById('loading');
     var s = new Spinner(opts).spin(target);
     spinner = s;
@@ -62,7 +62,7 @@ $('#no-account').click(function(e) {
 });
 
 // TODO - Combine logic for click events for user and genre buttons
-// Grab an uploaded track from a user's sounds or one of their favorite sounds
+/* Grab an uploaded track from a user's sounds or one of their favorite sounds */
 $('.me').click(function(e) {
 
     $('#instructions').hide();
@@ -76,7 +76,7 @@ $('.me').click(function(e) {
     tumble(tags, selection);
 });
 
-// Grab a random track based on genre selected
+/*  Grab a random track based on genre selected */
 $('.genre').click(function(e) {
     $('#instructions').hide();
     $('#not-connected-instructions').hide();
@@ -90,11 +90,13 @@ $('.genre').click(function(e) {
     tumble(tags, selection);
 });
 
+/* Pick the API endpoint based on selection and make the request to SoundCloud */
 function getTracks(selection) {
 
+    // TODO - refactor this logic
+    // Not the best way to differentiate between the url to hit, but it works for now
     var soundcloud_url = null;
 
-    // Not the best way to do this, but it works
     if (selection == 'my sounds') {
         soundcloud_url = '/me/tracks';
     }
@@ -102,24 +104,39 @@ function getTracks(selection) {
         soundcloud_url = '/me/favorites';
     }
     if (soundcloud_url) {
-        SC.get(soundcloud_url, function(tracks) {
-            // get a random track from the sounds returned
-            var random = Math.floor(Math.random() * tracks.length);
-            var soundcloud_url = tracks[random].permalink_url;
-            setupWidget(soundcloud_url);
-        });
-    } else {  // user clicked a genre button
+        try {  // sometimes the request to the SoundCloud API bombs out. this handles that
+            SC.get(soundcloud_url, function(tracks) {
+                // get a random track from the sounds returned
+                var random = Math.floor(Math.random() * tracks.length);
+                var soundcloud_url = tracks[random].permalink_url;
+                setupWidget(soundcloud_url);
+            });
+        } catch(e) {
+            console.log(e.message);
+            $('#sound-load-error').removeClass('hide');
+            $('#sound-load-error').show();
+        }
+    }
+    else {  // user clicked a genre button
         // increase the amount of tracks returned from 50 to 200 and change offset randomly for more variance
-        SC.get('/tracks', { genres: selection, limit: 200, offset: Math.floor(Math.random() * 7999) }, function(tracks) {
-
-            // get a random track from the 200 returned
-            var random = Math.floor(Math.random() * 199);
-            var soundcloud_url = tracks[random].permalink_url;
-            setupWidget(soundcloud_url);
-        });
+        try {
+            SC.get('/tracks', {
+                genres: selection, limit: 200, offset: Math.floor(Math.random() * 7999)
+            }, function(tracks) {
+                // get a random track from the 200 returned
+                var random = Math.floor(Math.random() * 199);
+                var soundcloud_url = tracks[random].permalink_url;
+                setupWidget(soundcloud_url);
+            });
+        } catch(e) {
+            console.log(e.message);
+            $('#sound-load-error').removeClass('hide');
+            $('#sound-load-error').show();
+        }
     }
 }
 
+/* Parses the images returned from Tumblr */
 function getImages(data, images) {
 
     for (var i = 0; i < data.response.length; i++) {
@@ -131,6 +148,7 @@ function getImages(data, images) {
     }
 }
 
+/* Contains the main logic for requesting images from Tumblr */
 function tumble(tags, selection) {
 
     images = [];  // reset images
@@ -138,9 +156,9 @@ function tumble(tags, selection) {
 
     var timestamp = Date.now() * 0.001;
 
-    // 20 requests to tumblr or about 400 images
+    // 15 requests to tumblr or about 300 images
     // seems to create an engaging experience for most normal length sounds
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 15; i++) {
 
         // this is a hack on tumblr's API to retrieve more than 20 images by navigating back in time via timestamp
         var seed = Math.floor((Math.random()*10)+1);  // randomizes the images returned from tumblr more
@@ -149,7 +167,7 @@ function tumble(tags, selection) {
         var url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=gif&before=' + timestamp;
 
         // dynamically name requests so we can wait for them to complete
-        var name = 'req' + i;
+        var name = 'r' + i;
         window[name] = $.ajax({
             async: false,
             url: url,
@@ -157,16 +175,16 @@ function tumble(tags, selection) {
             jsonp: 'jsonp'}).success(function(data){ getImages(data, images);
         });
     }
-
     // wait for all ajax requests to be done
     // TODO - make the number of requests to wait for dynamic
-    $.when(req0, req1, req2, req3, req4, req5, req6, req7, req8, req9, req10, req11).done(function(){
+    $.when(r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14).done(function(){
         embedImages(images, selection);
     });
 }
 
-// useful for shuffling images to create different ordering for each play
+/* Useful for shuffling images to create different ordering for each play */
 function shuffle(array) {
+
     var counter = array.length, temp, index;
 
     // While there are elements in the array
@@ -179,16 +197,16 @@ function shuffle(array) {
         array[counter] = array[index];
         array[index] = temp;
     }
-
     return array;
 }
 
+/* Injects the images into the DOM */
 function embedImages(images, selection) {
 
     // randomize the order of the images
     images = shuffle(images);
 
-    for (var i = 0; i <= images.length; i++) {
+    for (var i = 0; i < images.length; i++) {
         var imageId = 'image' + i;
         $('#image-holder').append('<div id="' + imageId + '" class="row text-center hide"><img src="'+ images[i] + '"></div>');
     }
@@ -197,7 +215,7 @@ function embedImages(images, selection) {
     getTracks(selection);
 }
 
-// handles soundcloud widget events, and contains logic for transitioning between images
+/* Handles SoundCloud widget events, and contains logic for transitioning between images */
 function setupWidget(soundcloud_url) {
 
     // the total duration of 100 percent of the audio is divided by the amount of images
