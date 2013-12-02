@@ -258,7 +258,7 @@ function embedImages(images, selection) {
 
     for (var i = 0; i < images.length; i++) {
         var imageId = 'image' + i;
-        $('#image-holder').append('<div id="' + imageId + '" class="row text-center hide"><img src="'+ images[i] + '"></div>');
+        $('#image-holder').append('<div id="' + imageId + '" class="row images text-center hide"><img src="'+ images[i] + '"></div>');
     }
 
     // once the images are loaded we can get the audio and set the image transition points
@@ -284,16 +284,13 @@ function setupWidget(soundcloud_url, selection) {
       .done(function (data) {
         var widget;
         // data.html will contain widget HTML that you can embed
-        $('#sc-widget').html( data.html );
+        $('#sc-widget').html(data.html);
+
+        // show the viewfinder once the sound is loaded
+        $('.viewfinder').removeClass('hide');
 
         // Create API enabled reference to the widget
         widget = SC.Widget($('#sc-widget').find('iframe')[0]);
-
-        // Interact with widget via API
-        // widget.bind('ready', function () {
-        //     spinner.stop();
-        //     $('#loading').hide();
-        // });
 
         // Play events
         widget.bind(SC.Widget.Events.PLAY, function() {

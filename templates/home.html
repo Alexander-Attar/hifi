@@ -12,11 +12,11 @@
 <p id="track-finished" class="hide text-center lead">
   Make another selection to continue!
 </p>
-<div id="my-sounds" class="col-md-12 text-center hide">
-  <div id="my-sounds" class="me btn">My Sounds</div>
-  <div id="favorites" class="me btn">My Favorites</div>
-</div>
 <div id="genres" class="col-md-12 text-center hide">
+  <span id="my-sounds"  class="hide">
+    <div id="my-sounds" class="me btn">My Sounds</div>
+    <div id="favorites" class="me btn">My Favorites</div>
+  </span>
   <div class="genre btn">Ambient</div>
   <div class="genre btn">Classical</div>
   <div class="genre btn">Dubstep</div>
@@ -43,7 +43,7 @@
   images = images.replace(/'/g, '\"')
   images = JSON.parse( images );
 </script>
-<div class="row viewfinder">
+<div class="viewfinder well hide">
   <div id="image-holder">
 <!-- Handled via Javascript now -->
 <!--     {% for image in images %}
@@ -53,5 +53,6 @@
     {% endfor %} -->
   </div>
 </div>
-<div class="col-md-12" id="sc-widget"></div>
+<div class="" id="sc-widget"></div>
+
 {% endblock %}

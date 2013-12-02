@@ -29,7 +29,7 @@ body {
 
 .container {
   width: auto;
-  max-width: 1000px;
+  max-width: 1100px;
   /*padding: 0 15px;*/
   padding: 0px;
 }
@@ -74,12 +74,18 @@ h1 {
   margin-bottom: 10px;
 }
 
+.images {
+  margin-bottom: 0px;
+}
+
 #genres {
   margin-bottom: 10px;
 }
 
 .viewfinder {
   margin-bottom: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 #image-holder img {
@@ -96,6 +102,15 @@ h1 {
 
 }
 
+#image-holder.fullScreen span {
+  min-width: 100%;
+  min-height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+
+}
+
 [class*="col-"] {
   padding-top: 0px;
   /*padding-bottom: 10px;*/
@@ -103,9 +118,17 @@ h1 {
 
 #sc-widget {
   padding-top: 0px;
+  width: 100%;
 }
 
 .me {
+  color: rgb(251, 122, 16);
+  background-color: #fff;
+  border: 1px solid rgb(251, 122, 16);
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+.me:hover {
   color: #fff;
   background-color: rgb(251, 122, 16);
   border: 1px solid #ddd;
