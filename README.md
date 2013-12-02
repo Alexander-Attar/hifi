@@ -2,7 +2,7 @@ HiFi
 ====
 
 An Audiovisual radio powered by SoundCloud and Tumblr.
-Visit HiFi online [**here.**](http://hifi.herokuapp.com/)
+Visit HiFi online [here.](http://hifi.herokuapp.com/)
 
 Plug HiFi into some speakers and a projector at a venue or at your next party and let the tunes and imagery unfold.
 
