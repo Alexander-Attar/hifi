@@ -1,10 +1,12 @@
 import random
+import urllib2
 import calendar
 import datetime
 
-from django.core.management.base import BaseCommand
-
 import requests
+from PIL import ImageFile
+
+from django.core.management.base import BaseCommand
 
 from hifi.models import Image
 
@@ -40,18 +42,29 @@ class Command(BaseCommand):
                 for p in photos:
                     if not 'original_size' in p: continue
 
-                # check for duplicates
-                url_count = Image.objects.filter(url=p['original_size']['url']).count()
-                if not url_count > 0:  # save the image if it isn't in the database
-                    print 'Saving image: %s' % p['original_size']['url'].split('/')[-1]
-                    image = Image.objects.create(
-                        url=p['original_size']['url'],
-                        name=p['original_size']['url'].split('/')[-1]
-                    )
-                    images.append(p['original_size']['url'])  # keep a count
-                    image.save()
-                else:
-                    print 'Duplicate image. Not saving.'
+                    try:  # to get image info
+                        file_size, width, height = self.get_image_size(p['original_size']['url'])
+                        print 'Image: %s, Width: %s, Height: %s' % (p['original_size']['url'], width, height)
+                    except Exception as e:
+                        logger.error(str(e))
+
+                    # skip if the image size looks too small
+                    if width < 50 or height < 50: continue
+
+                    # check for duplicates
+                    url_count = Image.objects.filter(url=p['original_size']['url']).count()
+
+                    # save the image if it isn't in the database
+                    if not url_count > 0:
+                        print 'Saving image: %s' % p['original_size']['url'].split('/')[-1]
+                        image = Image.objects.create(
+                            url=p['original_size']['url'],
+                            name=p['original_size']['url'].split('/')[-1]
+                        )
+                        images.append(p['original_size']['url'])  # keep a count
+                        image.save()
+                    else:
+                        print 'Duplicate image. Not saving.'
 
             # navigate back
             timestamp -= 10500  # this is kind of arbitrary, just the result of experimenting
@@ -60,4 +73,24 @@ class Command(BaseCommand):
         print '%s have been saved to the database.' % len(images)
         etime = (datetime.datetime.now() - stime).seconds / 60.0
         print 'Finished getcounterpointbalance. %s minutes have elapsed.' % etime
+
+    def get_image_size(url):
+        """ get file size *and* image size (None if not known) """
+
+        response = urllib2.urlopen(url)
+        size = response.headers.get("content-length")
+
+        if size:
+            size = int(size)
+        p = ImageFile.Parser()
+        while 1:
+            data = response.read(24)
+            if not data:
+                break
+            p.feed(data)
+            if p.image:
+                return size, p.image.size[0], p.image.size[1]
+                break
+        response.close()
+        return size, None, None
 
