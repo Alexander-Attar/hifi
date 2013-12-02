@@ -72,9 +72,9 @@ class Command(BaseCommand):
             timestamp -= 10500  # this is kind of arbitrary, just the result of experimenting
             index += 1
 
-        print '%s have been saved to the database.' % len(images)
+        print '%s images have been saved to the database.' % len(images)
         etime = (datetime.datetime.now() - stime).seconds / 60.0
-        print 'Finished getcounterpointbalance. %s minutes have elapsed.' % etime
+        print 'Finished getgifs. %s minutes have elapsed.' % etime
 
     def get_image_size(self, url):
         """ get file size *and* image size (None if not known) """
