@@ -3,6 +3,10 @@ var tags = [
     'gif', 'art', 'technology', 'music', 'sound', 'science', 'love', 'light', 'dark', 'electronic', 'cyber', 'nyc'
 ];
 
+$('#fullscreen').click(function(e){  // enable fullscreen
+    $('#image-holder').fullScreen();
+});
+
 function createSpinnder() { // ridin' spinners
 var opts = {
   lines: 7, // The number of lines to draw
@@ -108,7 +112,7 @@ function getTracks(selection) {
                 // get a random track from the sounds returned
                 var random = Math.floor(Math.random() * tracks.length);
                 var soundcloud_url = tracks[random].permalink_url;
-                setupWidget(soundcloud_url);
+                setupWidget(soundcloud_url, selection);
             });
         } catch(e) {
             console.log(e.message);
@@ -219,7 +223,7 @@ function embedImages(images, selection) {
 }
 
 /* Handles SoundCloud widget events, and contains logic for transitioning between images */
-function setupWidget(soundcloud_url) {
+function setupWidget(soundcloud_url, selection) {
 
     // the total duration of 100 percent of the audio is divided by the amount of images
     // and the value is used to create the transiton points that are hit by an incrementing
@@ -272,8 +276,8 @@ function setupWidget(soundcloud_url) {
         });
 
         widget.bind(SC.Widget.Events.FINISH, function(obj) {
-            $('#track-finished').show();
-            $('#track-finished').removeClass('hide');
+            // Automatically pick a new track of the same genre and continue playing
+            tumble(tags, selection);
         });
     });
 }
