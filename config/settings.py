@@ -17,23 +17,23 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-# TODO - Set up the database to use environment variables
-# import dj_database_url
-# DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
 # Make this unique, and don't share it with anybody.
-# SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-SECRET_KEY = 'local'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
+import dj_database_url
+DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
+
+# Using environment variables for Database
 # Local database - NOTE - update this to your own localdb
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hifi',
-        'HOST': 'localhost',
-        'USER': 'Alexander',
-        'PASSWORD': ''
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'hifi',
+#         'HOST': 'localhost',
+#         'USER': 'Alexander',
+#         'PASSWORD': ''
+#     }
+# }
 
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -141,7 +141,7 @@ INSTALLED_APPS = (
     'gunicorn',
 
     # apps
-    'mixtapes',
+    'hifi',
 )
 
 LOGGING = {

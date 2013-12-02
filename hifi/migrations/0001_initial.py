@@ -17,4 +17,4 @@ class Migration(SchemaMigration):
         
     }
 
-    complete_apps = ['mixtapes']
+    complete_apps = ['hifi']

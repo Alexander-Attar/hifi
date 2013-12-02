@@ -64,10 +64,9 @@ $('#no-account').click(function(e) {
 // TODO - Combine logic for click events for user and genre buttons
 /* Grab an uploaded track from a user's sounds or one of their favorite sounds */
 $('.me').click(function(e) {
-
     $('#instructions').hide();
     $('#track-finished').hide();
-    createSpinnder();
+    // createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
     var selection = $(e.target).closest('.btn').text().toLowerCase();
@@ -81,7 +80,7 @@ $('.genre').click(function(e) {
     $('#instructions').hide();
     $('#not-connected-instructions').hide();
     $('#track-finished').hide();
-    createSpinnder();
+    // createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
     var selection = $(e.target).closest('.btn').text().toLowerCase();
@@ -151,35 +150,39 @@ function getImages(data, images) {
 /* Contains the main logic for requesting images from Tumblr */
 function tumble(tags, selection) {
 
-    images = [];  // reset images
+    // images = [];  // reset images
     $('#image-holder').empty();  // clear out images in the DOM
+    embedImages(images, selection);
 
-    var timestamp = Date.now() * 0.001;
-
+    // ====================================================================================
+    // Moved the request logic to be on the backend to significantly decrease load time !
+    // ====================================================================================
+    // var timestamp = Date.now() * 0.001;
     // 15 requests to tumblr or about 300 images
     // seems to create an engaging experience for most normal length sounds
-    for (var i = 0; i < 15; i++) {
+    // for (var i = 0; i < 15; i++) {
+    //     console.log(i);
 
         // this is a hack on tumblr's API to retrieve more than 20 images by navigating back in time via timestamp
-        var seed = Math.floor((Math.random()*10)+1);  // randomizes the images returned from tumblr more
-        timestamp -= 10500 * seed;  // this is kind of arbitrary, just the result of experimenting
+        // var seed = Math.floor((Math.random()*10)+1);  // randomizes the images returned from tumblr more
+        // timestamp -= 10500 * seed;  // this is kind of arbitrary, just the result of experimenting
 
-        var url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=gif&before=' + timestamp;
+        // var url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=gif&before=' + timestamp;
 
         // dynamically name requests so we can wait for them to complete
-        var name = 'r' + i;
-        window[name] = $.ajax({
-            async: false,
-            url: url,
-            dataType: "jsonp",
-            jsonp: 'jsonp'}).success(function(data){ getImages(data, images);
-        });
-    }
+        // var name = 'r' + i;
+        // window[name] = $.ajax({
+        //     async: false,
+        //     url: url,
+        //     dataType: "jsonp",
+        //     jsonp: 'jsonp'}).success(function(data){ getImages(data, images);
+        // });
+    // }
     // wait for all ajax requests to be done
     // TODO - make the number of requests to wait for dynamic
-    $.when(r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14).done(function(){
-        embedImages(images, selection);
-    });
+    // $.when(r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14).done(function(){
+    //    embedImages(images, selection);
+    // });
 }
 
 /* Useful for shuffling images to create different ordering for each play */
@@ -203,8 +206,8 @@ function shuffle(array) {
 /* Injects the images into the DOM */
 function embedImages(images, selection) {
 
-    // randomize the order of the images
-    images = shuffle(images);
+    // randomize the order of the images and limit it to the first 300 images
+    images = shuffle(images).slice(0, 300);
 
     for (var i = 0; i < images.length; i++) {
         var imageId = 'image' + i;
@@ -240,10 +243,10 @@ function setupWidget(soundcloud_url) {
         widget = SC.Widget($('#sc-widget').find('iframe')[0]);
 
         // Interact with widget via API
-        widget.bind('ready', function () {
-            spinner.stop();
-            $('#loading').hide();
-        });
+        // widget.bind('ready', function () {
+        //     spinner.stop();
+        //     $('#loading').hide();
+        // });
 
         // Play events
         widget.bind(SC.Widget.Events.PLAY, function() {

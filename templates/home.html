@@ -29,6 +29,19 @@
   <div class="genre btn">Rock</div>
 </div>
 <!-- Images -->
+<script type="text/javascript">
+  // logic to get the images from the django view into the js
+  var images = (("{{ images|safe }}").replace(/&(l|g|quo)t;/g, function(a,b){
+      return {
+          l   : '<',
+          g   : '>',
+          quo : '"'
+      }[b];
+  }));
+  images = images.replace(/u'/g, '\'')
+  images = images.replace(/'/g, '\"')
+  images = JSON.parse( images );
+</script>
 <div class="row viewfinder">
   <div id="image-holder">
 <!-- Handled via Javascript now -->
