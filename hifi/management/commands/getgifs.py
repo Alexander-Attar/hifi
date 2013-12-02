@@ -29,8 +29,7 @@ class Command(BaseCommand):
         while index < 100:
 
             # this is a hack on tumblr's API to retrieve more than 20 images by navigating back in time via timestamp
-
-            tumblr_url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=gif&before=%s' % timestamp
+            tumblr_url = 'http://api.tumblr.com/v2/tagged?api_key=dGwcFI3DVY8C5EzQI9zmpiVDgLhrCMbGygHic7WtDRUWV6RAa0&tag=gif&before=%s' % timestamp
 
             print 'Making request: %s' % tumblr_url
             r = requests.get(tumblr_url)
