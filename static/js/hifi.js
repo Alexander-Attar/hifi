@@ -1,6 +1,7 @@
 var spinner;
 var selection;
 var trackIds = [];  // lets us keep a history of the sounds played
+var authorized = false;
 
 $('#fullscreen').click(function(e){  // enable fullscreen
     $('#image-holder').fullScreen();
@@ -20,8 +21,15 @@ function checkKey(e) {
         console.log('Left Arrow. Playing previous track');
         getPrevious(trackIds[trackIds.length - 2]);
     }
-    if (e.keyCode == '70') {
+    if (e.keyCode == '70') {  // F key
         $('#image-holder').fullScreen();
+    }
+    if (e.keyCode == '76') {  // L key
+        if (authorized) {
+            likeSound(trackIds[trackIds.length - 1]);  // current track
+        } else {
+            console.log('Not connected to SoundCloud');
+        }
     }
     // TODO - Add Play, Pause, and Volume controls
 }
@@ -59,8 +67,9 @@ $(document).ready(function() {
 });
 
 $("#connect").live("click", function(){
-    SC.connect(function(){
-        SC.get("/me", function(me){
+    SC.connect(function() {
+        SC.get("/me", function(me) {
+            authorized = true;
             $('#project-description').hide();
             $('#connect').hide();
             $('#no-account').hide();
@@ -164,6 +173,14 @@ function getPrevious(trackId) {
     SC.get(soundcloud_url, 'allow_redirects=False', function(track) {
         setupWidget(track.permalink_url, selection);
     });
+}
+
+function likeSound(trackId) {
+    var soundcloud_url = '/me/favorites/' + trackId;
+    SC.put(soundcloud_url, function(track) {
+        console.log(track);
+    });
+
 }
 
 /* Parses the images returned from Tumblr */
