@@ -1,11 +1,30 @@
 var spinner;
-var tags = [
-    'gif', 'art', 'technology', 'music', 'sound', 'science', 'love', 'light', 'dark', 'electronic', 'cyber', 'nyc'
-];
+var selection;
+var trackIds = [];  // lets us keep a history of the sounds played
 
 $('#fullscreen').click(function(e){  // enable fullscreen
     $('#image-holder').fullScreen();
 });
+
+document.onkeydown = checkKey;
+
+/* perform various player logic based on key presses */
+function checkKey(e) {
+
+    e = e || window.event;
+    if (e.keyCode == '39') {  // right arrow
+        console.log('Right Arrow. Playing next track');
+        tumble(selection);
+    }
+    if (e.keyCode == '37') {  // right arrow
+        console.log('Left Arrow. Playing previous track');
+        getPrevious(trackIds[trackIds.length - 2]);
+    }
+    if (e.keyCode == '70') {
+        $('#image-holder').fullScreen();
+    }
+    // TODO - Add Play, Pause, and Volume controls
+}
 
 function createSpinnder() { // ridin' spinners
 var opts = {
@@ -73,10 +92,10 @@ $('.me').click(function(e) {
     // createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
-    var selection = $(e.target).closest('.btn').text().toLowerCase();
+    selection = $(e.target).closest('.btn').text().toLowerCase();
 
     // get images from tumblr
-    tumble(tags, selection);
+    tumble(selection);
 });
 
 /*  Grab a random track based on genre selected */
@@ -87,10 +106,10 @@ $('.genre').click(function(e) {
     // createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
-    var selection = $(e.target).closest('.btn').text().toLowerCase();
+    selection = $(e.target).closest('.btn').text().toLowerCase();
 
     // get images from tumblr
-    tumble(tags, selection);
+    tumble(selection);
 });
 
 /* Pick the API endpoint based on selection and make the request to SoundCloud */
@@ -129,6 +148,7 @@ function getTracks(selection) {
                 // get a random track from the 200 returned
                 var random = Math.floor(Math.random() * 199);
                 var soundcloud_url = tracks[random].permalink_url;
+                trackIds.push(tracks[random].id);  // keep this so we can get the previous track
                 setupWidget(soundcloud_url);
             });
         } catch(e) {
@@ -137,6 +157,13 @@ function getTracks(selection) {
             $('#sound-load-error').show();
         }
     }
+}
+
+function getPrevious(trackId) {
+    var soundcloud_url = '/tracks/' + trackId;
+    SC.get(soundcloud_url, 'allow_redirects=False', function(track) {
+        setupWidget(track.permalink_url, selection);
+    });
 }
 
 /* Parses the images returned from Tumblr */
@@ -152,7 +179,7 @@ function getImages(data, images) {
 }
 
 /* Contains the main logic for requesting images from Tumblr */
-function tumble(tags, selection) {
+function tumble(selection) {
 
     // images = [];  // reset images
     $('#image-holder').empty();  // clear out images in the DOM
@@ -277,7 +304,7 @@ function setupWidget(soundcloud_url, selection) {
 
         widget.bind(SC.Widget.Events.FINISH, function(obj) {
             // Automatically pick a new track of the same genre and continue playing
-            tumble(tags, selection);
+            tumble(selection);
         });
     });
 }

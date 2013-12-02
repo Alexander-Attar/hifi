@@ -9,6 +9,13 @@ Plug HiFi into some speakers and a projector at a venue or at your next party an
 HiFi lets you select a radio of your own SoundCloud sounds, your favorite sounds, or a genre of your choice.
 New images are collected from Tumblr daily so that the visual content will continue to evolve.
 
+Key Commands:
+
+* Right-Arrow - Next Sound
+* Left-Arrow - Previous Sound
+* F - Full Screen
+* Esc - Exit Full Screen
+
 ![Alt text](/static/img/screenshot1.png)
 
 Please open docs/_build/html/index.html in your browser for development documentation.
