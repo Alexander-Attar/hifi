@@ -46,10 +46,12 @@ class Command(BaseCommand):
                         file_size, width, height = self.get_image_size(p['original_size']['url'])
                         print 'Image: %s, Width: %s, Height: %s' % (p['original_size']['url'], width, height)
                     except Exception as e:
-                        logger.error(str(e))
+                        print str(e)
 
                     # skip if the image size looks too small
-                    if width < 50 or height < 50: continue
+                    if width < 50 or height < 50:
+                        print 'Image is too small. Not saving'
+                        continue
 
                     # check for duplicates
                     url_count = Image.objects.filter(url=p['original_size']['url']).count()
@@ -74,7 +76,7 @@ class Command(BaseCommand):
         etime = (datetime.datetime.now() - stime).seconds / 60.0
         print 'Finished getcounterpointbalance. %s minutes have elapsed.' % etime
 
-    def get_image_size(url):
+    def get_image_size(self, url):
         """ get file size *and* image size (None if not known) """
 
         response = urllib2.urlopen(url)
