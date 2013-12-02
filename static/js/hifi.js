@@ -177,10 +177,7 @@ function getPrevious(trackId) {
 
 function likeSound(trackId) {
     var soundcloud_url = '/me/favorites/' + trackId;
-    SC.put(soundcloud_url, function(track) {
-        console.log(track);
-    });
-
+    SC.put(soundcloud_url);
 }
 
 /* Parses the images returned from Tumblr */
