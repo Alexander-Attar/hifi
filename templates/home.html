@@ -5,9 +5,9 @@
   There was an error loading that sound. Select another one!
 </div>
 <p id="instructions" class="hide text-center lead">
-  Select one of your sounds, one of your favorites, or a genre to start the visualizer!
+  Select one of your sounds, one of your favorites, or a genre to start!
 <p id="not-connected-instructions" class="hide text-center lead">
-  Select a genre to start the visualizer!
+  Select a genre to start!
 </p>
 <p id="track-finished" class="hide text-center lead">
   Make another selection to continue!
@@ -27,7 +27,6 @@
   <div class="genre btn">Pop</div>
   <div class="genre btn">Punk</div>
   <div class="genre btn">Rock</div>
-  <div class="btn" id="fullscreen">Full Screen</div>
 </div>
 <!-- Images -->
 <script type="text/javascript">
@@ -43,16 +42,45 @@
   images = images.replace(/'/g, '\"')
   images = JSON.parse( images );
 </script>
-<div class="viewfinder well hide">
-  <div id="image-holder">
-<!-- Handled via Javascript now -->
-<!--     {% for image in images %}
-      <div id="image{{forloop.counter}}" class="row text-center hide">
-          <img src="{{image}}">
-      </div>
-    {% endfor %} -->
+<div class="row hide" id="player">
+  <div id="image-holder" class="col-md-8 panel panel-default" >
+  <!-- Handled via Javascript now -->
+  <!--     {% for image in images %}
+        <div id="image{{forloop.counter}}" class="row text-center hide">
+            <img src="{{image}}">
+        </div>
+      {% endfor %} -->
   </div>
+  <div id="controls" class="panel panel-default col-md-4">
+    <div class="btn btn-lg col-md-12" id="fullscreen">Full Screen</div>
+    <div class="btn btn-lg col-md-12" id="fullscreen" data-toggle="modal" data-target="#shortcuts-modal">Keyboard Shortcuts</div>
+  </div>
+  <div class="" id="sc-widget"></div>
 </div>
-<div class="" id="sc-widget"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="shortcuts-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div id="key-commands-header" class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Keyboard Shortcuts</h2>
+      </div>
+      <div class="modal-body">
+          <div class="keyboard-shortcuts">
+            <dl class="kbd-big"><dt><kbd><kbd>space</kbd>  </kbd> </dt> <dd>Toggle play &amp; pause</dd></dl>
+            <dl class=""> <dt> <kbd>  <kbd>→</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Play next track</dd></dl>
+            <dl class=""> <dt> <kbd>  <kbd>←</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Play previous track</dd></dl>
+            <dl class=""> <dt> <kbd>  <kbd>↑</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Increase volume</dd> </dl>
+            <dl class=""> <dt> <kbd>  <kbd>↓</kbd>  <kbd>⇧</kbd></kbd></dt> <dd>Decrease volume</dd> </dl>
+            <!-- <dl class=""> <dt> <kbd>  <kbd>M</kbd>  </kbd> </dt> <dd>Mute volume</dd></dl> -->
+            <dl class=""> <dt> <kbd>  <kbd>L</kbd>  </kbd> </dt> <dd>Like playing track</dd></dl>
+            <dl class=""> <dt> <kbd>  <kbd>F</kbd>  </kbd> </dt> <dd>Full screen mode</dd></dl>
+            <dl class=""> <dt> <kbd>  <kbd>K</kbd>  </kbd> </dt> <dd>Show keyboard shortcuts</dd></dl>
+          </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 {% endblock %}

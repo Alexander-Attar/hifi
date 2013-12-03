@@ -127,6 +127,11 @@
 				// the temporary div
 
 				elem.removeClass( options.fullscreenClass ).insertBefore(fs);
+
+				/* Super Hacky Monkey Patch! Gotta come up with a better solution! */
+				$('#image-holder').addClass('col-md-8');
+				/* =============================================================== */
+
 				fs.remove();
 			}
 

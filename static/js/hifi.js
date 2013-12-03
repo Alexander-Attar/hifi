@@ -1,9 +1,10 @@
-var spinner;
+var widget;
 var selection;
 var trackIds = [];  // lets us keep a history of the sounds played
 var authorized = false;
 
 $('#fullscreen').click(function(e){  // enable fullscreen
+    $('#image-holder').removeClass('col-md-8');
     $('#image-holder').fullScreen();
 });
 
@@ -13,26 +14,60 @@ document.onkeydown = checkKey;
 function checkKey(e) {
 
     e = e || window.event;
-    if (e.keyCode == '39') {  // right arrow
-        console.log('Right Arrow. Playing next track');
+    if (e.keyCode == '39' && e.shiftKey) {  // right arrow + shift
         tumble(selection);
     }
-    if (e.keyCode == '37') {  // right arrow
-        console.log('Left Arrow. Playing previous track');
+    if (e.keyCode == '37' && e.shiftKey) {  // left arrow + shift
         getPrevious(trackIds[trackIds.length - 2]);
     }
-    if (e.keyCode == '70') {  // F key
-        $('#image-holder').fullScreen();
-    }
-    if (e.keyCode == '76') {  // L key
-        if (authorized) {
-            console.log('L Key. Liking track');
-            likeSound(trackIds[trackIds.length - 1]);  // current track
-        } else {
-            console.log('Not connected to SoundCloud');
+    if (e.keyCode == '38' && e.shiftKey) {  // up arrow + shift
+        if (widget) {
+            widget.getVolume(function(volume) {
+                if (volume < 100) {
+                    widget.setVolume(volume + 10);
+                }
+            });
         }
     }
-    // TODO - Add Play, Pause, and Volume controls
+    if (e.keyCode == '40' && e.shiftKey) {  // down arrow + shift
+        console.log('Down Arrow. Volume down');
+        if (widget) {
+            widget.getVolume(function(volume) {
+                if (volume > 0) {
+                    widget.setVolume(volume - 10);
+                }
+            });
+        }
+    }
+    if (e.keyCode == '70' && e.shiftKey) {  // F key
+        $('#image-holder').removeClass('col-md-8');
+        $('#image-holder').fullScreen();
+    }
+    if (e.keyCode == '76' && e.shiftKey) {  // L key
+        if (authorized) {  // only if connected
+            console.log('L Key. Liking track');
+            likeSound(trackIds[trackIds.length - 1]);  // current track
+        }
+    }
+    if (e.keyCode == '32') {  // space
+        console.log('Space Key');
+        if (widget) {  // make sure widget is instantiated first
+            widget.isPaused(function(paused) {
+                if (paused) {
+                    widget.play();
+                } else {
+                    widget.pause();
+                }
+            });
+        }
+    }
+    if (e.keyCode == '75' && e.shiftKey) {  // K key
+        if ($('#shortcuts-modal').hasClass('in')) {
+            $('#shortcuts-modal').modal('hide');
+        } else {
+            $('#shortcuts-modal').modal('show');
+        }
+    }
 }
 
 $(document).ready(function() {
@@ -75,7 +110,6 @@ $('#no-account').click(function(e) {
 $('.me').click(function(e) {
     $('#instructions').hide();
     $('#track-finished').hide();
-    // createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
     selection = $(e.target).closest('.btn').text().toLowerCase();
@@ -89,7 +123,6 @@ $('.genre').click(function(e) {
     $('#instructions').hide();
     $('#not-connected-instructions').hide();
     $('#track-finished').hide();
-    // createSpinnder();
     $('#loading').show();
     $('#sound-load-error').hide();
     selection = $(e.target).closest('.btn').text().toLowerCase();
@@ -262,12 +295,12 @@ function setupWidget(soundcloud_url, selection) {
 
     $.getJSON('http://soundcloud.com/oembed.json?url=' + soundcloud_url + widget_options)
       .done(function (data) {
-        var widget;
+
         // data.html will contain widget HTML that you can embed
         $('#sc-widget').html(data.html);
 
         // show the viewfinder once the sound is loaded
-        $('.viewfinder').removeClass('hide');
+        $('#player').removeClass('hide');
 
         // Create API enabled reference to the widget
         widget = SC.Widget($('#sc-widget').find('iframe')[0]);
