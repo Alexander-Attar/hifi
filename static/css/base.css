@@ -131,13 +131,21 @@ h1 {
   min-height: 100%;
 }
 
-#controls {
-  height: auto;
-  min-height: 100%;
-  margin-bottom: 0;
-  max-width: 100%;
-  padding-top: 10px;
-  padding-left: 10px;
+@media (max-width: 991px) {
+  #controls {
+    display: none;
+  }
+}
+
+@media (max-width: 992px) {
+  #controls {
+    height: auto;
+    min-height: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+    padding-top: 10px;
+    padding-left: 10px;
+  }
 }
 
 #controls .btn {
@@ -188,8 +196,8 @@ h1 {
 }
 
 .genre {
-    border: 1px solid #ddd;
-    border: 1px solid rgba(86,61,124,.2);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
 }
 
 .genre:hover {
