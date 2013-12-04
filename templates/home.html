@@ -12,21 +12,24 @@
 <p id="track-finished" class="hide text-center lead">
   Make another selection to continue!
 </p>
-<div id="genres" class="col-md-12 text-center hide">
-  <span id="my-sounds"  class="hide">
-    <div id="my-sounds" class="me btn">My Sounds</div>
-    <div id="favorites" class="me btn">My Favorites</div>
-  </span>
-  <div class="genre btn">Ambient</div>
-  <div class="genre btn">Classical</div>
-  <div class="genre btn">Dubstep</div>
-  <div class="genre btn">Electronic</div>
-  <div class="genre btn">HipHop</div>
-  <div class="genre btn">Indie</div>
-  <div class="genre btn">Metal</div>
-  <div class="genre btn">Pop</div>
-  <div class="genre btn">Punk</div>
-  <div class="genre btn">Rock</div>
+
+<div class="row">
+  <div id="genres" class="col-md-12 text-center hide">
+    <span id="my-sounds"  class="hide">
+      <div id="my-sounds" class="me btn">My Sounds</div>
+      <div id="favorites" class="me btn">My Favorites</div>
+    </span>
+    <div class="genre btn">Ambient</div>
+    <div class="genre btn">Classical</div>
+    <div class="genre btn">Dubstep</div>
+    <div class="genre btn">Electronic</div>
+    <div class="genre btn">HipHop</div>
+    <div class="genre btn">Indie</div>
+    <div class="genre btn">Metal</div>
+    <div class="genre btn">Pop</div>
+    <div class="genre btn">Punk</div>
+    <div class="genre btn">Rock</div>
+  </div>
 </div>
 <!-- Images -->
 <script type="text/javascript">
@@ -43,7 +46,7 @@
   images = JSON.parse( images );
 </script>
 <div class="row hide" id="player">
-  <div id="image-holder" class="col-md-8 panel panel-default" >
+  <div id="image-holder" class="col-md-8" >
   <!-- Handled via Javascript now -->
   <!--     {% for image in images %}
         <div id="image{{forloop.counter}}" class="row text-center hide">
@@ -51,11 +54,14 @@
         </div>
       {% endfor %} -->
   </div>
-  <div id="controls" class="panel panel-default col-md-4">
-    <div class="btn btn-lg col-md-12" id="fullscreen">Full Screen</div>
-    <div class="btn btn-lg col-md-12" id="fullscreen" data-toggle="modal" data-target="#shortcuts-modal">Keyboard Shortcuts</div>
+
+  <div id="controls" class="col-md-4">
+      <div class="btn btn-lg col-md-12" id="fullscreen">Full Screen</div>
+      <div class="btn btn-lg col-md-12" id="fullscreen" data-toggle="modal" data-target="#shortcuts-modal">Keyboard Shortcuts</div>
   </div>
-  <div class="" id="sc-widget"></div>
+</div>
+<div class="row">
+  <div id="sc-widget" class="col-md-12"></div>
 </div>
 
 <!-- Modal -->
@@ -68,15 +74,15 @@
       </div>
       <div class="modal-body">
           <div class="keyboard-shortcuts">
-            <dl class="kbd-big"><dt><kbd><kbd>space</kbd>  </kbd> </dt> <dd>Toggle play &amp; pause</dd></dl>
-            <dl class=""> <dt> <kbd>  <kbd>→</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Play next track</dd></dl>
-            <dl class=""> <dt> <kbd>  <kbd>←</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Play previous track</dd></dl>
-            <dl class=""> <dt> <kbd>  <kbd>↑</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Increase volume</dd> </dl>
-            <dl class=""> <dt> <kbd>  <kbd>↓</kbd>  <kbd>⇧</kbd></kbd></dt> <dd>Decrease volume</dd> </dl>
+            <dl><dt><kbd><kbd>space</kbd>  </kbd> </dt> <dd>Toggle play &amp; pause</dd></dl>
+            <dl> <dt> <kbd>  <kbd>→</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Play next track</dd></dl>
+            <dl> <dt> <kbd>  <kbd>←</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Play previous track</dd></dl>
+            <dl> <dt> <kbd>  <kbd>↑</kbd>  <kbd>⇧</kbd>  </kbd> </dt> <dd>Increase volume</dd> </dl>
+            <dl> <dt> <kbd>  <kbd>↓</kbd>  <kbd>⇧</kbd></kbd></dt> <dd>Decrease volume</dd> </dl>
             <!-- <dl class=""> <dt> <kbd>  <kbd>M</kbd>  </kbd> </dt> <dd>Mute volume</dd></dl> -->
-            <dl class=""> <dt> <kbd>  <kbd>L</kbd>  </kbd> </dt> <dd>Like playing track</dd></dl>
-            <dl class=""> <dt> <kbd>  <kbd>F</kbd>  </kbd> </dt> <dd>Full screen mode</dd></dl>
-            <dl class=""> <dt> <kbd>  <kbd>K</kbd>  </kbd> </dt> <dd>Show keyboard shortcuts</dd></dl>
+            <dl> <dt> <kbd>  <kbd>L</kbd>  </kbd> </dt> <dd>Like playing track</dd></dl>
+            <dl> <dt> <kbd>  <kbd>F</kbd>  </kbd> </dt> <dd>Full screen mode</dd></dl>
+            <dl> <dt> <kbd>  <kbd>K</kbd>  </kbd> </dt> <dd>Show keyboard shortcuts</dd></dl>
           </div>
       </div>
     </div><!-- /.modal-content -->
