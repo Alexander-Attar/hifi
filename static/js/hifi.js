@@ -39,11 +39,11 @@ function checkKey(e) {
             });
         }
     }
-    if (e.keyCode == '70' && e.shiftKey) {  // F key
+    if (e.keyCode == '70') {  // F key
         $('#image-holder').removeClass('col-md-8');
         $('#image-holder').fullScreen();
     }
-    if (e.keyCode == '76' && e.shiftKey) {  // L key
+    if (e.keyCode == '76') {  // L key
         if (authorized) {  // only if connected
             console.log('L Key. Liking track');
             likeSound(trackIds[trackIds.length - 1]);  // current track
@@ -61,7 +61,7 @@ function checkKey(e) {
             });
         }
     }
-    if (e.keyCode == '75' && e.shiftKey) {  // K key
+    if (e.keyCode == '75') {  // K key
         if ($('#shortcuts-modal').hasClass('in')) {
             $('#shortcuts-modal').modal('hide');
         } else {
@@ -184,7 +184,7 @@ function getNext(tracks) {
         trackId = tracks[random].id;
     }
     trackIds.push(trackId);  // keep this so we can get the previous track
-    return tracks[random].permalink_url;
+    return tracks[random].uri;
 }
 
 /* Look in the track ID history and play the previously played track */
@@ -217,36 +217,6 @@ function tumble(selection) {
     // images = [];  // reset images
     $('#image-holder').empty();  // clear out images in the DOM
     embedImages(images, selection);
-
-    // ====================================================================================
-    // Moved the request logic to be on the backend to significantly decrease load time !
-    // ====================================================================================
-    // var timestamp = Date.now() * 0.001;
-    // 15 requests to tumblr or about 300 images
-    // seems to create an engaging experience for most normal length sounds
-    // for (var i = 0; i < 15; i++) {
-    //     console.log(i);
-
-        // this is a hack on tumblr's API to retrieve more than 20 images by navigating back in time via timestamp
-        // var seed = Math.floor((Math.random()*10)+1);  // randomizes the images returned from tumblr more
-        // timestamp -= 10500 * seed;  // this is kind of arbitrary, just the result of experimenting
-
-        // var url = 'http://api.tumblr.com/v2/tagged?api_key=YP7Ou3HkhMg9eXEsHK3ZEXK041U8yhhnrzhZIrJd47y498Cd7c&tag=gif&before=' + timestamp;
-
-        // dynamically name requests so we can wait for them to complete
-        // var name = 'r' + i;
-        // window[name] = $.ajax({
-        //     async: false,
-        //     url: url,
-        //     dataType: "jsonp",
-        //     jsonp: 'jsonp'}).success(function(data){ getImages(data, images);
-        // });
-    // }
-    // wait for all ajax requests to be done
-    // TODO - make the number of requests to wait for dynamic
-    // $.when(r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14).done(function(){
-    //    embedImages(images, selection);
-    // });
 }
 
 /* Useful for shuffling images to create different ordering for each play */
@@ -291,7 +261,7 @@ function setupWidget(soundcloud_url, selection) {
         transitions.push(tick);
     }
 
-    var widget_options = '&color=000000&show_artwork=false&auto_play=true';
+    var widget_options = '&color=000000&show_artwork=false&visual=true&auto_play=true';
 
     $.getJSON('http://soundcloud.com/oembed.json?url=' + soundcloud_url + widget_options)
       .done(function (data) {
