@@ -12,7 +12,6 @@ document.onkeydown = checkKey;
 
 /* perform various player logic based on key presses */
 function checkKey(e) {
-
     e = e || window.event;
     if (e.keyCode == '39' && e.shiftKey) {  // right arrow + shift
         tumble(selection);
@@ -214,7 +213,7 @@ function getImages(data, images) {
 
 /* Contains the main logic for requesting images from Tumblr */
 function tumble(selection) {
-    // images = [];  // reset images
+    images = shuffle(images);
     $('#image-holder').empty();  // clear out images in the DOM
     getTracks(selection);
 }

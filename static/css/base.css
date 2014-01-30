@@ -69,15 +69,15 @@ h1 {
 }
 
 #no-account-btn {
-  color: rgb(251, 122, 16);
+  color: rgb(254, 76, 0);
   background-color: #fff;
-  border: 1px solid rgb(251, 122, 16);
+  border: 1px solid rgb(254, 76, 0);
   border: 1px solid rgba(86,61,124,.2);
 }
 
 #no-account-btn:hover {
   color: #fff;
-  background-color: rgb(251, 122, 16);
+  background-color: rgb(254, 76, 0);
   border: 1px solid #ddd;
   border: 1px solid rgba(86,61,124,.2);
 }
@@ -168,15 +168,15 @@ h1 {
 }
 
 .me {
-  color: rgb(251, 122, 16);
+  color: rgb(254, 76, 0);
   background-color: #fff;
-  border: 1px solid rgb(251, 122, 16);
+  border: 1px solid rgb(254, 76, 0);
   border: 1px solid rgba(86,61,124,.2);
 }
 
 .me:hover {
   color: #fff;
-  background-color: rgb(251, 122, 16);
+  background-color: rgb(254, 76, 0);
   border: 1px solid #ddd;
   border: 1px solid rgba(86,61,124,.2);
 }
@@ -184,7 +184,7 @@ h1 {
 #fullscreen {
   color: #8f49ff;
   background-color: #fff;
-  border: 1px solid rgb(251, 122, 16);
+  border: 1px solid rgb(254, 76, 0);
   border: 1px solid rgba(86,61,124,.2);
 }
 
@@ -201,8 +201,8 @@ h1 {
 }
 
 .genre:hover {
-  color: rgb(251, 122, 16);
-  outline-color: rgb(251, 122, 16);
+  color: rgb(254, 76, 0);
+  outline-color: rgb(254, 76, 0);
 }
 
 #footer img {
@@ -244,35 +244,28 @@ dl {
 }
 
 /* Load bar */
+.pace .pace-progress {
+  background: rgb(254, 76, 0);
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  height: 2px;
+
+  -webkit-transition: width 1s;
+  -moz-transition: width 1s;
+  -o-transition: width 1s;
+  transition: width 1s;
+}
+
+.pace-inactive {
+  display: none;
+}
+
 .pace {
   -webkit-pointer-events: none;
   pointer-events: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-}
-
-.pace .pace-progress {
-  display: block;
-  position: fixed;
-  z-index: 2000;
-  top: 0;
-  left: 0;
-  height: 12px;
-  background: #ff9300;
-
-  -webkit-transition: -webkit-transform .3s, width 1s;
-  -moz-transition: width 1s;
-  -o-transform: width 1s;
-  transition: transform .3s, width 1s;
-
-  -webkit-transform: translateY(-50px);
-  transform: translateY(-50px);
-
-  pointer-events: none;
-}
-
-.pace.pace-active .pace-progress {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
 }
