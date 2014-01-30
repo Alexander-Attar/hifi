@@ -216,7 +216,7 @@ function getImages(data, images) {
 function tumble(selection) {
     // images = [];  // reset images
     $('#image-holder').empty();  // clear out images in the DOM
-    embedImages(images, selection);
+    getTracks(selection);
 }
 
 /* Useful for shuffling images to create different ordering for each play */
@@ -236,26 +236,17 @@ function shuffle(array) {
     return array;
 }
 
-/* Injects the images into the DOM */
-function embedImages(images, selection) {
-    // randomize the order of the images and limit it to the first 300 images
-    images = shuffle(images).slice(0, 300);
-
-    for (var i = 0; i < images.length; i++) {
-        var imageId = 'image' + i;
-        $('#image-holder').append('<div id="' + imageId + '" class="row images text-center hide"><img src="'+ images[i] + '"></div>');
-    }
-    // once the images are loaded we can get the audio and set the image transition points
-    getTracks(selection);
-}
-
 /* Handles SoundCloud widget events, and contains logic for transitioning between images */
 function setupWidget(soundcloud_url, selection) {
     // the total duration of 100 percent of the audio is divided by the amount of images
     // and the value is used to create the transiton points that are hit by an incrementing
     // index as the sound progresses over time
     var transitions = [];
-    var threshold = 100 / Math.floor($("#image-holder > div").length);
+
+    // Lazy loading the images is faster, but the div won't have a length so we must set the length
+    // manually. Currently it is set to 300
+    // var threshold = 100 / Math.floor($("#image-holder > div").length);
+    threshold = 100 / 300;
 
     for (var tick = threshold; tick <= 100; tick+=threshold) {
         transitions.push(tick);
@@ -288,6 +279,11 @@ function setupWidget(soundcloud_url, selection) {
         // Progress events
         widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(obj) {
             var index = Math.floor(obj.relativePosition / threshold * 100) + 1;
+
+            /* Injects the images into the DOM */
+            // I moved the image loading logic here to load one image at a time
+            var imageId = 'image' + index;
+            $('#image-holder').append('<div id="' + imageId + '" class="row images text-center hide"><img src="'+ images[index] + '"></div>');
 
             // hide all images besides the current index
             for (var i = 0; i <= $("#image-holder > div").length; i++) {
